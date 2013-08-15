@@ -1,0 +1,76 @@
+<il.ac.shenkar.cadan.FlyOutContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#b5e5fe"
+        android:gravity="right"
+        android:orientation="vertical"
+        android:padding="3dp" >
+
+        <SearchView
+            android:id="@+id/searchView1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingBottom="20dp"
+            android:iconifiedByDefault="false" >
+        </SearchView>
+
+        <fragment
+            android:id="@+id/settings"
+            android:name="il.ac.shenkar.cadan.PrefsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="0dp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/MyTheme"
+        tools:context=".Main" >
+
+        <fragment
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="0dp"
+            tools:ignore="MissingPrefix" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:background="#e1dddd" >
+
+            <ImageView
+                android:id="@+id/imageButton1"
+                android:layout_width="38dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:onClick="toggleMenu"
+                android:padding="5dp"
+                android:src="@drawable/m_icon" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/seperator" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</il.ac.shenkar.cadan.FlyOutContainer>
