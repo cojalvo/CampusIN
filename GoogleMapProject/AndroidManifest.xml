@@ -75,10 +75,16 @@
         </activity>
         <activity android:name="il.ac.shenkar.cadan.CalendarAvtivity" >
         </activity>
-                <activity android:name="il.ac.shenkar.cadan.FregmentManageActivity" >
+        <activity android:name="il.ac.shenkar.cadan.FregmentManageActivity" >
         </activity>
-                <activity android:name="il.ac.shenkar.cadan.EventsActivity" >
+        <activity android:name="il.ac.shenkar.cadan.EventsActivity" >
         </activity>
+
+        <service
+            android:name="il.ac.shenkar.in.services.LocationReporterServise"
+            android:icon="@drawable/marker_icon"
+            android:label="Location Report Service" >
+        </service>
     </application>
 
 </manifest>

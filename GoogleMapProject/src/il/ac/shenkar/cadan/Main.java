@@ -4,6 +4,7 @@ package il.ac.shenkar.cadan;
 
 import il.ac.shenkar.cadan.PrefsFragment.OnPreferenceSelectedListener;
 import il.ac.shenkar.common.CampusInConstant;
+import il.ac.shenkar.in.services.LocationReporterServise;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -54,7 +55,6 @@ public class Main extends Activity  implements OnPreferenceSelectedListener {
 		this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.main, null);
 		
 		this.setContentView(root);
-
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 		        .getMap();
 		map.setMapType(map.MAP_TYPE_NONE);
@@ -115,6 +115,12 @@ public class Main extends Activity  implements OnPreferenceSelectedListener {
 					return false;
 				}
 			});
+			
+			Intent i= new Intent(this, LocationReporterServise.class);
+			// potentially add data to the intent
+			i.putExtra("KEY1", "Value to be used by the service");
+			this.startService(i); 
+
 	}
 
 	@Override

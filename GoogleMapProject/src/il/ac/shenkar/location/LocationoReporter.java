@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 public class LocationoReporter implements ILocationReporter
 {
@@ -27,9 +28,9 @@ public class LocationoReporter implements ILocationReporter
 	private ILocationProvider locationProvider = new RandomLocationProvider();
 	//cloud access
 	private IDataAccesObject dao;
-	private boolean lastUpdateFinish=true;
+	private static boolean lastUpdateFinish=true;
 	//determine if the user want to update his location
-	private static boolean update = false;
+	private Context context=null;
 
 	public LocationoReporter(Context context)
 	{
@@ -44,7 +45,8 @@ public class LocationoReporter implements ILocationReporter
 		//set the filter for the intent reciever
 		filterSend.addAction(CampusInConstant.CLOUD_ACTION_LOCATION_UPDATE);
 		//register a receiver
-		context.registerReceiver(receiver, filterSend);
+		this.context=context;
+		if (context!=null) context.registerReceiver(receiver, filterSend);
 	}
 	//the broadcast receiver receive callback from the dao object when the updating has finished
 	private BroadcastReceiver receiver=new BroadcastReceiver()
@@ -61,12 +63,13 @@ public class LocationoReporter implements ILocationReporter
 		@Override
 		public void run()
 		{
-			if (update && lastUpdateFinish)
+			if (lastUpdateFinish)
 			{
 				lastUpdateFinish=false;
 				reportLocation();
+				Toast.makeText(context, "Location was reported", 80).show();
 			}
-			handler.postDelayed(autoRefresh, interval);
+			handler.postDelayed(autoRefresh, 3000);
 		}
 
 	};
@@ -90,7 +93,7 @@ public class LocationoReporter implements ILocationReporter
 			// TODO Create a class that will help me find out whether i have
 			// connection to the internet
 			// TODO if not, that create a warning message for the user.
-			Log.i(TAG, "Update location has failed");
+			Log.i(TAG, "Update location was failed");
 		}
 
 	}
@@ -103,7 +106,8 @@ public class LocationoReporter implements ILocationReporter
 	@Override
 	public void start()
 	{
-		update=true;
+		
+		Toast.makeText(context, "Location was start", 100).show();
 		//TODO Check if this call in the second time will not effect.
 		autoRefresh.run();
 	}
@@ -111,7 +115,8 @@ public class LocationoReporter implements ILocationReporter
 	@Override
 	public void stop()
 	{
-		update=false;
+		handler.removeCallbacks(autoRefresh);
+		Toast.makeText(context, "Location was stoped", 100).show();
 	}
 	
 

@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
@@ -15,6 +16,7 @@ import android.preference.PreferenceFragment;
 public class PrefsFragment extends PreferenceFragment {
 	public static final String ACTION_INTENT = "il.ac.shenkar.CHANGE";
 	OnPreferenceSelectedListener mCallback;
+	private Context context;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -22,9 +24,22 @@ public class PrefsFragment extends PreferenceFragment {
 		Parse.initialize(getActivity(), "3kRz2kNhNu5XxVs3mI4o3LfT1ySuQDhKM4I6EblE",
 				"UmGc3flrvIervInFbzoqGxVKapErnd9PKnXy4uMC");
 		ParseFacebookUtils.initialize("635010643194002");
+		context=getActivity().getBaseContext();
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preference);
-
+		final CheckBoxPreference showMe=(CheckBoxPreference) findPreference("display_me");
+		showMe.setOnPreferenceClickListener(new OnPreferenceClickListener()
+		{
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference)
+			{
+					Intent inti = new Intent();
+					inti.setAction(ACTION_INTENT);
+					context.sendBroadcast(inti);
+				return true;
+			}
+		});
 		Preference testCalender = findPreference("my_calendar");
 		testCalender
 				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
