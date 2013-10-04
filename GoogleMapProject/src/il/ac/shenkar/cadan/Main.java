@@ -31,10 +31,14 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.app.*;
+import android.support.v4.widget.DrawerLayout;
 
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -42,6 +46,8 @@ public class Main extends Activity  implements OnPreferenceSelectedListener {
 	FlyOutContainer root;
 	CameraPosition lastPos=new CameraPosition(new LatLng(0, 0),2,2,2);
 	GoogleMap map=null;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 	  static final LatLng HAMBURG = new LatLng(20,25);
 	  static final LatLng KIEL = new LatLng(15, 10);
 	  FragmentManager fm;
@@ -52,9 +58,30 @@ public class Main extends Activity  implements OnPreferenceSelectedListener {
 		Parse.initialize(this, "3kRz2kNhNu5XxVs3mI4o3LfT1ySuQDhKM4I6EblE",
 				"UmGc3flrvIervInFbzoqGxVKapErnd9PKnXy4uMC");
 		ParseFacebookUtils.initialize("635010643194002");
-		this.root = (FlyOutContainer) this.getLayoutInflater().inflate(R.layout.main, null);
+		this.mDrawerLayout = (DrawerLayout) this.getLayoutInflater().inflate(R.layout.main, null);
 		
-		this.setContentView(root);
+		this.setContentView(this.mDrawerLayout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // ActionBarDrawerToggle ties together the the proper interactions
+        // between the sliding drawer and the action bar app icon
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description for accessibility */
+                R.string.drawer_close  /* "close drawer" description for accessibility */
+                ) {
+            public void onDrawerClosed(View view) {
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 		        .getMap();
 		map.setMapType(map.MAP_TYPE_NONE);
@@ -115,13 +142,40 @@ public class Main extends Activity  implements OnPreferenceSelectedListener {
 					return false;
 				}
 			});
-			
 			Intent i= new Intent(this, LocationReporterServise.class);
 			// potentially add data to the intent
 			i.putExtra("KEY1", "Value to be used by the service");
 			this.startService(i); 
-
 	}
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+	    super.onPostCreate(savedInstanceState);
+	    // Sync the toggle state after onRestoreInstanceState has occurred.
+	    mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+	    mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Pass the event to ActionBarDrawerToggle, if it returns
+	    // true, then it has handled the app icon touch event
+	    if (mDrawerToggle.onOptionsItemSelected(item)) {
+	      return true;
+	    }
+	    // Handle your other action bar items...
+
+	    return super.onOptionsItemSelected(item);
+	}
+
+	    @Override
+	    public boolean onPrepareOptionsMenu(Menu menu) {
+	        return super.onPrepareOptionsMenu(menu);
+	    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -131,6 +185,9 @@ public class Main extends Activity  implements OnPreferenceSelectedListener {
 	}
 
 	public void toggleMenu(View v){
+		//hide the keyboard if its open
+		InputMethodManager inputMethodManager = (InputMethodManager)this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 		this.root.toggleMenu();
 	}
 

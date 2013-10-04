@@ -12,6 +12,9 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class PrefsFragment extends PreferenceFragment {
 	public static final String ACTION_INTENT = "il.ac.shenkar.CHANGE";
@@ -53,6 +56,14 @@ public class PrefsFragment extends PreferenceFragment {
 						return true;
 					}
 				});
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState)
+	{
+		// TODO Auto-generated method stub
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	public interface OnPreferenceSelectedListener {

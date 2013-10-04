@@ -30,7 +30,7 @@ public class LocationReporterServise extends Service {
 		public void onCreate() {
 
 			super.onCreate();
-			locationReporter=new LocationoReporter(500,getBaseContext());
+			locationReporter=new LocationoReporter(9000,getBaseContext());
 		}
 
 		@Override

@@ -6,6 +6,7 @@ import il.ac.shenkar.cadan.PrefsFragment;
 import il.ac.shenkar.common.CampusInConstant;
 import il.ac.shenkar.common.CampusInUserLocation;
 import il.ac.shenkar.common.CampusInLocation;
+import il.ac.shenkar.in.dal.ActionCode;
 import il.ac.shenkar.in.dal.CloudAccessObject;
 import il.ac.shenkar.in.dal.IDataAccesObject;
 import il.ac.shenkar.in.dal.IObserver;
@@ -17,7 +18,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
-public class LocationoReporter implements ILocationReporter
+public class LocationoReporter implements ILocationReporter,IObserver
 {
 
 	private String TAG = LocationoReporter.class.getName();
@@ -41,6 +42,7 @@ public class LocationoReporter implements ILocationReporter
 	{
 		this.interval = interval;
 		dao = CloudAccessObject.getInstance();
+		dao.addObserver(this);
 		IntentFilter filterSend = new IntentFilter();
 		//set the filter for the intent reciever
 		filterSend.addAction(CampusInConstant.CLOUD_ACTION_LOCATION_UPDATE);
@@ -48,6 +50,7 @@ public class LocationoReporter implements ILocationReporter
 		this.context=context;
 		if (context!=null) context.registerReceiver(receiver, filterSend);
 	}
+	
 	//the broadcast receiver receive callback from the dao object when the updating has finished
 	private BroadcastReceiver receiver=new BroadcastReceiver()
 	{
@@ -69,7 +72,7 @@ public class LocationoReporter implements ILocationReporter
 				reportLocation();
 				Toast.makeText(context, "Location was reported", 80).show();
 			}
-			handler.postDelayed(autoRefresh, 3000);
+			handler.postDelayed(autoRefresh, interval);
 		}
 
 	};
@@ -117,6 +120,22 @@ public class LocationoReporter implements ILocationReporter
 	{
 		handler.removeCallbacks(autoRefresh);
 		Toast.makeText(context, "Location was stoped", 100).show();
+	}
+
+	@Override
+	public void actionDone(ActionCode settings)
+	{
+		Toast.makeText(context, "Update location succed", 15).show();
+		lastUpdateFinish=true;
+		
+	}
+
+	@Override
+	public void actionFail(ActionCode settings)
+	{
+		Toast.makeText(context, "Update location Failed", 15).show();
+		lastUpdateFinish=true;
+		
 	}
 	
 

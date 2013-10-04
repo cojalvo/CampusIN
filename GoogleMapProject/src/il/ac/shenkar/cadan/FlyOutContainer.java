@@ -1,11 +1,16 @@
 package il.ac.shenkar.cadan;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
@@ -16,7 +21,7 @@ public class FlyOutContainer extends LinearLayout {
 	private View content;
 
 	// Layout Constants
-	protected static final int menuMargin = 150;
+	protected static int menuMargin = 150;
 
 	public enum MenuState {
 		CLOSED, OPEN, CLOSING, OPENING
@@ -25,7 +30,7 @@ public class FlyOutContainer extends LinearLayout {
 	// Position information attributes
 	protected int currentContentOffset = 0;
 	protected MenuState menuCurrentState = MenuState.CLOSED;
-
+	private Context ctx;
 	// Animation objects
 	protected Scroller menuAnimationScroller = new Scroller(this.getContext(),
 			new LinearInterpolator());
@@ -40,14 +45,19 @@ public class FlyOutContainer extends LinearLayout {
 
 	public FlyOutContainer(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		ctx=context;
 	}
 
 	public FlyOutContainer(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		ctx=context;
+		calculateMargin();
 	}
 
 	public FlyOutContainer(Context context) {
 		super(context);
+		ctx=context;
+		calculateMargin();
 	}
 
 	@Override
@@ -56,8 +66,21 @@ public class FlyOutContainer extends LinearLayout {
 
 		this.menu = this.getChildAt(0);
 		this.content = this.getChildAt(1);
-
-		this.menu.setVisibility(View.GONE);
+		calculateChildDimensions();
+	}
+	private void calculateMargin()
+	{
+		
+		WindowManager wm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int width = size.x;
+		float m=((float)width/1080);
+		int height = size.y;
+		m=m*150;
+		menuMargin=(int) m;
+				
 	}
 
 	@Override
@@ -116,13 +139,13 @@ public class FlyOutContainer extends LinearLayout {
 
 		this.currentContentOffset = scrollerOffset;
 
-		this.invalidate();
 		
 		if (isAnimationOngoing)
 			this.menuAnimationHandler.postDelayed(this.menuAnimationRunnable,
 					menuAnimationPollingInterval);
 		else
 			this.onMenuTransitionComplete();
+		this.invalidate();
 	}
 
 	private void onMenuTransitionComplete() {
@@ -132,7 +155,7 @@ public class FlyOutContainer extends LinearLayout {
 			break;
 		case CLOSING:
 			this.menuCurrentState = MenuState.CLOSED;
-			this.menu.setVisibility(View.GONE);
+			//this.menu.setVisibility(View.GONE);
 			break;
 		default:
 			return;

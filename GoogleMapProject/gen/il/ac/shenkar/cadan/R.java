@@ -378,17 +378,18 @@ containing a value of this type.
         public static final int facebook_login=0x7f02003b;
         public static final int facebook_login_button_big=0x7f02003c;
         public static final int google_map=0x7f02003d;
-        public static final int ic_launcher=0x7f02003e;
-        public static final int listview_selector_focused=0x7f02003f;
-        public static final int listview_selector_pressed=0x7f020040;
-        public static final int m_icon=0x7f020041;
-        public static final int marker_icon=0x7f020042;
-        public static final int message_ico=0x7f020043;
-        public static final int my_list_selector=0x7f020044;
-        public static final int seperator=0x7f020045;
-        public static final int shenkarmap_1=0x7f020046;
-        public static final int smap=0x7f020047;
-        public static final int test_icon=0x7f020048;
+        public static final int ic_drawer=0x7f02003e;
+        public static final int ic_launcher=0x7f02003f;
+        public static final int listview_selector_focused=0x7f020040;
+        public static final int listview_selector_pressed=0x7f020041;
+        public static final int m_icon=0x7f020042;
+        public static final int marker_icon=0x7f020043;
+        public static final int message_ico=0x7f020044;
+        public static final int my_list_selector=0x7f020045;
+        public static final int seperator=0x7f020046;
+        public static final int shenkarmap_1=0x7f020047;
+        public static final int smap=0x7f020048;
+        public static final int test_icon=0x7f020049;
     }
     public static final class id {
         public static final int action_settings=0x7f060034;
@@ -419,13 +420,13 @@ containing a value of this type.
         public static final int deleteEvent=0x7f060020;
         public static final int displayAllRB=0x7f060030;
         public static final int displayMyFriendRB=0x7f060031;
+        public static final int drawer_layout=0x7f060022;
         public static final int facebookLoginButton=0x7f060009;
         public static final int gridView1=0x7f06000a;
         public static final int hybrid=0x7f060004;
-        public static final int imageButton1=0x7f060025;
         public static final int imageView1=0x7f060007;
         public static final int large=0x7f060006;
-        public static final int map=0x7f060024;
+        public static final int map=0x7f060023;
         public static final int myfragment=0x7f060026;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
@@ -434,9 +435,9 @@ containing a value of this type.
         public static final int rowHeader=0x7f060028;
         public static final int rowImageView=0x7f060027;
         public static final int satellite=0x7f060002;
-        public static final int searchView1=0x7f060022;
+        public static final int searchView1=0x7f060024;
         public static final int search_box=0x7f06001b;
-        public static final int settings=0x7f060023;
+        public static final int settings=0x7f060025;
         public static final int small=0x7f060005;
         public static final int spinner1=0x7f06002a;
         public static final int spinner2=0x7f06002d;
@@ -478,8 +479,10 @@ containing a value of this type.
         public static final int Trend_prompt=0x7f070033;
         public static final int Year_prompt=0x7f070034;
         public static final int action_settings=0x7f07002f;
+        public static final int action_websearch=0x7f07003a;
         public static final int app_id=0x7f070031;
         public static final int app_name=0x7f07002e;
+        public static final int app_not_available=0x7f07003b;
         /**   Title for notification shown when GooglePlayServices needs to be
         enabled for a application to work. [CHAR LIMIT=70] 
          */
@@ -584,6 +587,8 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f07000e;
         public static final int display_me=0x7f070035;
+        public static final int drawer_close=0x7f070039;
+        public static final int drawer_open=0x7f070038;
         public static final int hello_world=0x7f070030;
         public static final int login_with_facebook_to_enjoy_the_full_functionality_of_campusin=0x7f070032;
         public static final int show_hide_me_title=0x7f070037;

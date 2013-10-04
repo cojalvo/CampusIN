@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -100,12 +101,17 @@ public class CloudAccessObject implements IDataAccesObject
 		query.findInBackground(new FindCallback<ParseObject>() {
 		    public void done(List<ParseObject> scoreList, ParseException e) {
 		        if (e == null) {
-		        	//if the user exist in the cloud then the size pf the return list will be 1
+		        	//if the user exist in the cloud then the size of the return list will be 1
 		        	if(scoreList.size()==1)
 		        	{
-		        		scoreList.get(0).add("lat", userLoction.getLocation().getMapLocation().latitude);
-		        		scoreList.get(0).add("lon", userLoction.getLocation().getMapLocation().longitude);
-		        		scoreList.get(0).saveInBackground(new SaveCallback()
+		        		if(userLoction.getLocation()!=null)
+		        		{
+			        		scoreList.get(0).add("lat", userLoction.getLocation().getMapLocation().latitude);
+			        		scoreList.get(0).addUnique("lon", userLoction.getLocation().getMapLocation().longitude);
+			        		scoreList.get(0).addUnique("locationName", userLoction.getLocation().getName());
+			        		scoreList.get(0).addUnique("dateTime", userLoction.getLocation().getDate().toString());
+		        		}
+			        		scoreList.get(0).saveInBackground(new SaveCallback()
 						{
 							
 							@Override
@@ -113,7 +119,10 @@ public class CloudAccessObject implements IDataAccesObject
 							{
 								boolean succed=true;
 								if(e!=null)
+								{
 									succed=false;
+									Log.e("cadan", "Upadet location was failed");
+								}
 								updateObserves(ActionCode.UserLocation, succed);
 							}
 						});
@@ -126,6 +135,7 @@ public class CloudAccessObject implements IDataAccesObject
 		        		po.add("lat", userLoction.getLocation().getMapLocation().latitude);
 		        		po.add("lon", userLoction.getLocation().getMapLocation().longitude);
 		        		po.add("locationName", userLoction.getLocation().getName());
+		        		po.add("dateTime", userLoction.getLocation().getDate().toString());
 		        		po.saveInBackground(new SaveCallback()
 						{
 							
